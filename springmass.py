@@ -16,7 +16,7 @@ t = np.arange(0, tmax+dt, dt)
 # Pendulum equilibrium spring length (m), spring constant (N.m)
 L0 = 5.0
 k = 5.0
-m = 2.0
+m = 1.0
 
 # Initial conditions: x, p
 u0 = [L0 + 2.0, 0.0]
