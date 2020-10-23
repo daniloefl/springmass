@@ -19,7 +19,7 @@ def dudt(u, t, L0, k, m):
 tmax, dt = 20, 0.01
 t = np.arange(0, tmax+dt, dt)
 # Initial conditions: x, p
-u0 = [L + 1.0, 0.0]
+u0 = [L0 + 1.0, 0.0]
 
 # Do the numerical integration of the equations of motion
 u = odeint(dudt, u0, t, args=(L0, k, m))
@@ -54,13 +54,17 @@ def make_plot(i):
     point i.
     """
 
-    plot_spring(0, 0, x[i], 0, 0.0, L0)
+    y0 = 0.0
+    x0 = 0.0
+    plot_spring(x0, y0, x[i], y0, L0)
     # Circles representing the anchor point of rod 1 and the bobs
     c0 = Circle((0, 0), r/2, fc='k', zorder=10)
     c1 = Circle((x[i], 0), r, fc='r', ec='r', zorder=10)
     ax.add_patch(c0)
     ax.add_patch(c1)
 
+    ax.set_xlim(x0, 1.2*(L0+np.max(x)))
+    ax.set_ylim(y0-1, y0+1)
     ax.set_aspect('equal', adjustable='box')
     plt.axis('off')
     plt.savefig('frames/img-{:04d}.png'.format(i//di), dpi=300)
