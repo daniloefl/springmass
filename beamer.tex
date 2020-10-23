@@ -1,0 +1,12 @@
+\documentclass{beamer}
+\usepackage{xmpmulti}
+\begin{document}
+
+    %asuming you images are called "something-0.png" up to "something-16.png" 
+    \begin{frame}
+        \transduration<0-200>{0}
+        \multiinclude[<+->][format=png, graphics={width=\textwidth}]{frames/img}
+    \end{frame}
+
+\end{document}
+
