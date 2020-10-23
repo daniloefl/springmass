@@ -22,7 +22,7 @@ m = 1.0
 u0 = [L0 + 2.0, 0.0]
 
 # for the animation
-fps = 5
+fps = 4
 di = int(1/fps/dt)
 dpi = 300
 # Plotted bob circle radius
@@ -89,7 +89,7 @@ def make_plot(i, ax=None, axp=None, fname=None):
         ax.add_patch(rg)
 
         ax.set_aspect(aspect='equal', adjustable='box')
-        ax.set_xlim(0.0, maxX+0.5)
+        ax.set_xlim(0.0, maxX*2)
         ax.set_ylim(y0-2, y0+2)
         ax.axis('off')
 
@@ -127,7 +127,7 @@ def plot(fname, mode, i='all'):
     # frames per second.
     # Frame rate, s-1
     # This figure size (inches) and dpi give an image of 600x450 pixels.
-    fig = plt.figure(figsize=(4, 8), dpi=dpi)
+    fig = plt.figure(figsize=(6, 4), dpi=dpi)
     gs = gridspec.GridSpec(4, 1)
     ax = None
     axp = None
@@ -145,11 +145,11 @@ def plot(fname, mode, i='all'):
             make_plot(i, ax=ax, axp=axp)
         os.system(f"convert -delay {fps} -loop 0 frames/img-*.png {fname}")
     else:
-        make_plot(i, ax=ax, axp=axp)
+        make_plot(i, ax=ax, axp=axp, fname=fname)
 
 plot(fname="springmass.gif", mode=3)
-plot(fname='springmass_0.png', mode=2, i=0)
-plot(fname='springmass_25.png', mode=2, i=25)
-plot(fname='springmass_50.png', mode=2, i=50)
-plot(fname='springmass_75.png', mode=2, i=75)
-plot(fname='springmass_100.png', mode=2, i=100)
+plot(fname='springmass_0.png', mode=2, i=0*di)
+plot(fname='springmass_5.png', mode=2, i=5*di)
+plot(fname='springmass_10.png', mode=2, i=10*di)
+plot(fname='springmass_15.png', mode=2, i=15*di)
+plot(fname='springmass_20.png', mode=2, i=20*di)
