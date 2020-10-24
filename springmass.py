@@ -99,8 +99,9 @@ def make_plot(i, ax=None, axp=None, fname=None):
         axp.plot(x, T, lw=1, ls='--', color='cyan', label="Kinetic energy (T)")
         axp.plot(x, V, lw=2, ls='-', color='blue', label="Potential energy (V)")
         axp.plot(x, T+V, lw=1, ls='-', color='k', label="Total energy")
-        ce = Circle((x[i], V[i]), 0.05, fc='r', ec='r', zorder=10)
-        axp.add_patch(ce)
+        if isinstance(i, int):
+            ce = Circle((x[i], V[i]), 0.05, fc='r', ec='r', zorder=10)
+            axp.add_patch(ce)
         #xs = np.linspace(minX, x[i], 10)
         #ys = np.linspace(minV, V[i], 10)
         #axp.plot(xs, V[i]*np.ones_like(xs), ls=':', color='k')
@@ -148,8 +149,4 @@ def plot(fname, mode, i='all'):
         make_plot(i, ax=ax, axp=axp, fname=fname)
 
 plot(fname="springmass.gif", mode=3)
-plot(fname='springmass_0.png', mode=2, i=0*di)
-plot(fname='springmass_5.png', mode=2, i=5*di)
-plot(fname='springmass_10.png', mode=2, i=10*di)
-plot(fname='springmass_15.png', mode=2, i=15*di)
-plot(fname='springmass_20.png', mode=2, i=20*di)
+plot(fname='springmass_energy.png', mode=2, i='energy')
