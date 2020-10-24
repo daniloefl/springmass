@@ -96,22 +96,22 @@ def make_plot(i, ax=None, axp=None, fname=None):
     if axp is not None:
         minV = np.min(V)
         maxV = np.max(V)+0.1
-        axp.plot(x, T, lw=1, ls='--', color='cyan', label="Kinetic energy (T)")
-        axp.plot(x, V, lw=2, ls='-', color='blue', label="Potential energy (V)")
-        axp.plot(x, T+V, lw=1, ls='-', color='k', label="Total energy")
+        xp = np.linspace(-2.0-0.5, 2.0+0.5, 100)
+        Vp = 0.5*k*xp**2
+        Ep = (T+V)[0]
+        Tp = Vp - Ep
+        Tp[Tp < 0] = np.nan
+        axp.plot(xp, Tp, lw=2, ls='--', color='red', label="Kinetic energy (T)")
+        axp.plot(xp, Vp, lw=2, ls='-', color='blue', label="Potential energy (V)")
+        axp.plot(xp, Ep*np.ones_like(xp), lw=1, ls='-', color='k', label="Total energy (E)")
         if isinstance(i, int):
-            ce = Circle((x[i], V[i]), 0.05, fc='r', ec='r', zorder=10)
+            ce = Circle((x[i]-L0, V[i]), 0.05, fc='r', ec='r', zorder=10)
             axp.add_patch(ce)
-        #xs = np.linspace(minX, x[i], 10)
-        #ys = np.linspace(minV, V[i], 10)
-        #axp.plot(xs, V[i]*np.ones_like(xs), ls=':', color='k')
-        #axp.plot(x[i]*np.ones_like(ys), ys, ls=':', color='k')
-        #axp.set_aspect('equal', adjustable='datalim')
-        axp.set_xlim(minX, maxX)
-        axp.set_ylim(minV, maxV)
-        axp.set_xlabel("x [m]")
+        #axp.set_xlim(minX-L0, maxX-L0)
+        #axp.set_ylim(minV, maxV)
+        axp.set_xlabel(r"$x$ [m]")
         axp.set_ylabel("Energy [J]")
-        axp.grid()
+        #axp.grid()
         axp.legend()
     if fname is None:
         fname = f'frames/img-{i//di:04d}.png'
