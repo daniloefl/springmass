@@ -24,7 +24,7 @@ u0 = [L0 + 2.0, 0.0]
 # for the animation
 fps = 4
 di = int(1/fps/dt)
-dpi = 300
+dpi = 200
 # Plotted bob circle radius
 r = 0.40
 
@@ -125,7 +125,7 @@ def make_plot(i, ax=None, axp=None, fname=None):
         axp.set_xlabel(r"$x$ [m]", horizontalalignment='right', x=1.0)
         axp.set_ylabel("Energy [J]", horizontalalignment='right', y=1.0)
         #axp.grid()
-        axp.legend(loc='lower left', frameon=False)
+        axp.legend(loc='best', frameon=False)
     if fname is None:
         fname = f'frames/img-{i//di:04d}.png'
     plt.savefig(fname, dpi=dpi)
@@ -141,7 +141,7 @@ def plot(fname, mode, i='all'):
     # frames per second.
     # Frame rate, s-1
     # This figure size (inches) and dpi give an image of 600x450 pixels.
-    fig = plt.figure(figsize=(8, 4), dpi=dpi)
+    fig = plt.figure(figsize=(8, 8), dpi=dpi)
     gs = gridspec.GridSpec(4, 1)
     ax = None
     axp = None
