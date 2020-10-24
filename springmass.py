@@ -96,23 +96,36 @@ def make_plot(i, ax=None, axp=None, fname=None):
     if axp is not None:
         minV = np.min(V)
         maxV = np.max(V)+0.1
-        xp = np.linspace(-2.0-0.5, 2.0+0.5, 100)
+        xp = np.linspace(-2.0-0.3, 2.0+0.3, 100)
         Vp = 0.5*k*xp**2
         Ep = (T+V)[0]
-        Tp = Vp - Ep
+        Tp = Ep - Vp
         Tp[Tp < 0] = np.nan
-        axp.plot(xp, Tp, lw=2, ls='--', color='red', label="Kinetic energy (T)")
-        axp.plot(xp, Vp, lw=2, ls='-', color='blue', label="Potential energy (V)")
-        axp.plot(xp, Ep*np.ones_like(xp), lw=1, ls='-', color='k', label="Total energy (E)")
+
+        axp.plot(xp, Tp, lw=2, ls='--', color='red', label="Kinetic (T)")
+        axp.plot(xp, Vp, lw=2, ls='-', color='blue', label="Potential (V)")
+        axp.plot(xp, Ep*np.ones_like(xp), lw=1, ls='-', color='k', label="Total (E)")
+
+        # Move left y-axis and bottim x-axis to centre, passing through (0,0)
+        axp.spines['left'].set_position('center')
+        axp.spines['bottom'].set_position('zero')
+        
+        # Eliminate upper and right axes
+        axp.spines['right'].set_color('none')
+        axp.spines['top'].set_color('none')
+        
+        # Show ticks in the left and lower axes only
+        axp.xaxis.set_ticks_position('bottom')
+        axp.yaxis.set_ticks_position('left')
         if isinstance(i, int):
             ce = Circle((x[i]-L0, V[i]), 0.05, fc='r', ec='r', zorder=10)
             axp.add_patch(ce)
         #axp.set_xlim(minX-L0, maxX-L0)
         #axp.set_ylim(minV, maxV)
-        axp.set_xlabel(r"$x$ [m]")
-        axp.set_ylabel("Energy [J]")
+        axp.set_xlabel(r"$x$ [m]", horizontalalignment='right', x=1.0)
+        axp.set_ylabel("Energy [J]", horizontalalignment='right', y=1.0)
         #axp.grid()
-        axp.legend()
+        axp.legend(loc='lower left', frameon=False)
     if fname is None:
         fname = f'frames/img-{i//di:04d}.png'
     plt.savefig(fname, dpi=dpi)
@@ -128,7 +141,7 @@ def plot(fname, mode, i='all'):
     # frames per second.
     # Frame rate, s-1
     # This figure size (inches) and dpi give an image of 600x450 pixels.
-    fig = plt.figure(figsize=(6, 4), dpi=dpi)
+    fig = plt.figure(figsize=(8, 4), dpi=dpi)
     gs = gridspec.GridSpec(4, 1)
     ax = None
     axp = None
@@ -137,8 +150,8 @@ def plot(fname, mode, i='all'):
     elif mode == 2:
         axp = fig.add_subplot(gs[:, :])
     else:
-        ax = fig.add_subplot(gs[:2, :])
-        axp = fig.add_subplot(gs[2:, :])
+        ax = fig.add_subplot(gs[:1, :])
+        axp = fig.add_subplot(gs[1:, :])
     
     if i == 'all':
         for i in range(0, t.size, di):
@@ -148,5 +161,5 @@ def plot(fname, mode, i='all'):
     else:
         make_plot(i, ax=ax, axp=axp, fname=fname)
 
-plot(fname="springmass.gif", mode=3)
 plot(fname='springmass_energy.png', mode=2, i='energy')
+plot(fname="springmass.gif", mode=3)
