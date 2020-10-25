@@ -101,10 +101,16 @@ def make_plot(i, ax=None, axp=None, fname=None):
         Ep = (T+V)[0]
         Tp = Ep - Vp
         Tp[Tp < 0] = np.nan
+        forbidden1 = xp[np.argwhere(~np.isnan(Tp)).min()]
+        forbidden2 = xp[np.argwhere(~np.isnan(Tp)).max()]
 
         axp.plot(xp, Tp, lw=2, ls='--', color='red', label="Kinetic (T)")
         axp.plot(xp, Vp, lw=2, ls='-', color='blue', label="Potential (V)")
         axp.plot(xp, Ep*np.ones_like(xp), lw=1, ls='-', color='k', label="Total (E)")
+        #axp.axvline(forbidden1, lw=2, ls='--', color='magenta')
+        #axp.axvline(forbidden2, lw=2, ls='--', color='magenta')
+        axp.fill_between([np.min(xp), forbidden1], [0, 0], [np.max(Vp), np.max(Vp)], alpha=0.4, fc='red', lw=0)
+        axp.fill_between([forbidden2, np.max(xp)], [0, 0], [np.max(Vp), np.max(Vp)], alpha=0.4, fc='red', lw=0)
 
         # Move left y-axis and bottim x-axis to centre, passing through (0,0)
         axp.spines['left'].set_position('center')
@@ -120,12 +126,13 @@ def make_plot(i, ax=None, axp=None, fname=None):
         if isinstance(i, int):
             ce = Circle((x[i]-L0, V[i]), 0.05, fc='r', ec='r', zorder=10)
             axp.add_patch(ce)
+        
         #axp.set_xlim(minX-L0, maxX-L0)
         #axp.set_ylim(minV, maxV)
         axp.set_xlabel(r"$x$ [m]", horizontalalignment='right', x=1.0)
         axp.set_ylabel("Energy [J]", horizontalalignment='right', y=1.0)
         #axp.grid()
-        axp.legend(loc='center left', frameon=False)
+        axp.legend(bbox_to_anchor = [0.80, 1.0], frameon=False)
     if fname is None:
         fname = f'frames/img-{i//di:04d}.png'
     plt.savefig(fname, dpi=dpi)
