@@ -125,7 +125,7 @@ def make_plot(i, ax=None, axp=None, fname=None):
         axp.set_xlabel(r"$x$ [m]", horizontalalignment='right', x=1.0)
         axp.set_ylabel("Energy [J]", horizontalalignment='right', y=1.0)
         #axp.grid()
-        axp.legend(loc='best', frameon=False)
+        axp.legend(loc='center left', frameon=False)
     if fname is None:
         fname = f'frames/img-{i//di:04d}.png'
     plt.savefig(fname, dpi=dpi)
