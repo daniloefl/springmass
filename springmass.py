@@ -112,6 +112,14 @@ def make_plot(i, ax=None, axp=None, fname=None):
         axp.fill_between([np.min(xp), forbidden1], [0, 0], [np.max(Vp), np.max(Vp)], alpha=0.4, fc='red', lw=0)
         axp.fill_between([forbidden2, np.max(xp)], [0, 0], [np.max(Vp), np.max(Vp)], alpha=0.4, fc='red', lw=0)
 
+        if i == "energy":
+            axp.annotate("", xy=(1.0, 0.5*maxV), xytext=(1.0-0.5, 0.5*maxV),
+                        arrowprops=dict(arrowstyle="<|-", shrinkA=4, shrinkB=4))
+            axp.text(1.0-0.8, 0.5*maxV+1.0, r"$F_x = - \frac{dV}{dx}$", fontsize='xx-large')
+            axp.annotate("", xy=(-1.0, 0.5*maxV), xytext=(-1.0+0.5, 0.5*maxV),
+                        arrowprops=dict(arrowstyle="<|-", shrinkA=4, shrinkB=4))
+            axp.text(-1.0, 0.5*maxV+1.0, r"$F_x = - \frac{dV}{dx}$", fontsize='xx-large')
+
         # Move left y-axis and bottim x-axis to centre, passing through (0,0)
         axp.spines['left'].set_position('center')
         axp.spines['bottom'].set_position('zero')
